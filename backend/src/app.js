@@ -1,7 +1,12 @@
 import express from "express";
+import dotenv from "dotenv";
 import {nanoid} from "nanoid";
+import {connectDB} from "./config/db.js";
+
+dotenv.config("./.env");
 
 const app = express();
+connectDB();
 
 app.post("/api/create",(req,res)=>{
     const url = req.query.url;
