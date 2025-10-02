@@ -1,21 +1,21 @@
 import express from "express";
 import dotenv from "dotenv";
-import {nanoid} from "nanoid";
 import {connectDB} from "./config/db.js";
+import urlRoutes from "./routes/urlRoutes.js";
+
 
 dotenv.config("./.env");
 
 const app = express();
+
+app.use(express.json()); //without this req.body will be undefined
+
 connectDB();
 
-app.post("/api/create",(req,res)=>{
-    const url = req.query.url;
-    console.log("your url is:",url); 
-    res.send(nanoid(7));
-});
+app.use("/api/url",urlRoutes);
 
 
 
 app.listen(3001,()=>{
-    console.log("Listening on port 3000");
+    console.log("Listening on port 3001");
 })
