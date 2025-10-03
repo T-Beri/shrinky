@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import {connectDB} from "./config/db.js";
 import urlRoutes from "./routes/urlRoutes.js";
-
+import {retrieveUrl} from "./controllers/urlControllers.js";
+import { ErrorHandler } from "./middleware/errorHandler.js";
 
 dotenv.config("./.env");
 
@@ -10,10 +11,13 @@ const app = express();
 
 app.use(express.json()); //without this req.body will be undefined
 
+
 connectDB();
 
 app.use("/api/url",urlRoutes);
+app.get("/:shortUrl",retrieveUrl);
 
+app.use(ErrorHandler); //keep error handler after all routes
 
 
 app.listen(3001,()=>{
