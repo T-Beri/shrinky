@@ -1,14 +1,17 @@
 import shortUrl from "../models/urlShorten.js";
-import {nanoid} from "nanoid";
+import { shortUrlServiceWithOutUser } from "../services/shortUrlService.js";
 
 export async function createUrl(req,res){
     try{
         const {url} = req.body; 
-        const short = nanoid(7);
-        const doc = await shortUrl.create({full_url:url,short_url:short});
-        res.status(201).json({message:"Short url created successfully."});
+        const shortend = await shortUrlServiceWithOutUser(url);
+        res.status(201).json({
+            message:"Short url created successfully.",
+            shortUrl:process.env.APP_URL+shortend
+        });
     }catch(error){
-        res.status(500).json({message:"There was a problem in creating the shortend url."}); //every request handler must send back a response or the client will hang
+        res.status(500).json({message:"There was a problem in creating the shortend url."});
+        console.log(error.message); //every request handler must send back a response or the client will hang
     }
 }
 export async function retrieveUrl(req,res){
