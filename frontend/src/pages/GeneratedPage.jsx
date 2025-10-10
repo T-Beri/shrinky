@@ -14,10 +14,7 @@ const GeneratedPage = () => {
   return (
     <div className='card w-96 bg-base-100 shadow-sm '>
         <div className='flex justify-end'>
-            
-            
-            <FontAwesomeIcon icon = {faClipboard}  onClick={copied} className='cursor-pointer'></FontAwesomeIcon>
-            
+            <FontAwesomeIcon icon = {faClipboard} onClick={copied} className='cursor-pointer'></FontAwesomeIcon>
         </div>
        
     </div>
