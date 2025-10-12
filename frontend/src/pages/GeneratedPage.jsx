@@ -24,7 +24,7 @@ const GeneratedPage = () => {
         <h2 className="card-title">Your URL</h2>
         {copied? <FontAwesomeIcon icon={faClipboardCheck} className='text-xl'></FontAwesomeIcon>:<FontAwesomeIcon icon = {faClipboard} onClick={copy} className='cursor-pointer text-xl'></FontAwesomeIcon>}
       </div>
-      <div className="card-body flex items-center text-blue-700 hover:underline truncate">
+      <div className="card-body flex items-center text-white hover:underline truncate bg-gray-800 rounded-lg">
         <a href={textToCopy}>{textToCopy}</a>
       </div>
     </div>

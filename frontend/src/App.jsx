@@ -5,7 +5,7 @@ import GeneratedPage from './pages/GeneratedPage.jsx';
 
 const App = () => {
   return (
-    <div className='flex flex-col items-center justify-center h-screen w-screen'>
+    <div className='flex flex-col items-center justify-center h-screen w-screen bg-gray-100'>
       <Routes>
         <Route path ="/" element={<HomePage/>}></Route>
         <Route path ="/gen" element={<GeneratedPage/>}></Route>
