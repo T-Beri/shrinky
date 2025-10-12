@@ -6,10 +6,12 @@ export async function createUrl(req,res,next){
     try{
         const {url} = req.body; 
         const shortend = await shortUrlServiceWithOutUser(url);
+        
         res.status(201).json({
             message:"Short url created successfully.",
             shortUrl:process.env.APP_URL+shortend
         });
+        
     }catch(error){
         next(error);
         //res.status(500).json({message:"There was a problem in creating the shortened url."}); //every request handler must send back a response or the client will hang
