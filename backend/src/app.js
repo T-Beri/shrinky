@@ -4,6 +4,7 @@ import {connectDB} from "./config/db.js";
 import urlRoutes from "./routes/urlRoutes.js";
 import {retrieveUrl} from "./controllers/urlControllers.js";
 import { ErrorHandler } from "./middleware/errorHandler.js";
+import cors from "cors";
 
 dotenv.config("./.env");
 
@@ -11,6 +12,12 @@ const app = express();
 
 app.use(express.json()); //without this req.body will be undefined
 
+if(process.env.NODE_ENV!=="production"){
+
+    app.use(cors({
+        origin:"http://localhost:5173"
+    }))
+}
 
 connectDB();
 
