@@ -7,16 +7,17 @@ export const findUserViaEmail = async(email)=>{
     return doc;
 }
 
-export const saveUser = async(name,email,password,avatar)=>{
+export const saveUser = async(name,email,password)=>{
     try{
         const doc = new userModel({
             name: name,
             email:email,
             password:password,
-            avatar:avatar
+            
         });
         
         await doc.save();
+        return doc;
     }catch(error){
         
         console.log(error);
