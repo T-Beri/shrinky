@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import { cookieOptions } from "../config/cookieOptions.js"
+
 
 export const createToken = (id)=>{
     return jwt.sign(
