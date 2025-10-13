@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import {connectDB} from "./config/db.js";
 import urlRoutes from "./routes/urlRoutes.js";
+import authRoutes from "./routes/authRoutes.js"
 import {retrieveUrl} from "./controllers/urlControllers.js";
 import { ErrorHandler } from "./middleware/errorHandler.js";
 import cors from "cors";
@@ -20,6 +21,7 @@ if(process.env.NODE_ENV!=="production"){
 
 connectDB();
 
+app.use("/api/auth",authRoutes);
 app.use("/api/url",urlRoutes);
 app.get("/:shortUrl",retrieveUrl);
 

@@ -5,7 +5,8 @@ export async function saveShortUrl(url,short,userId) {
     try{
         const doc = new shortUrl({
             full_url:url,
-            short_url:short});
+            short_url:short
+        });
         if(userId){
             doc.user = userId;
         }
