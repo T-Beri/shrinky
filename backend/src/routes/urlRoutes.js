@@ -1,8 +1,9 @@
 import {Router} from "express";
-import {createUrl} from "../controllers/urlControllers.js";
+import {createCustomUrl, createUrl} from "../controllers/urlControllers.js";
 
 const router = Router();
 
 router.post("/",createUrl);
+router.post("/custom",createCustomUrl);
 
 export default router;

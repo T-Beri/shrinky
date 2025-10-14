@@ -27,3 +27,12 @@ export async function getFullUrl(short){
     //mongoose queries return a promise so you await them
     return doc;
 }
+
+export async function getCustomShortUrl(customURL){
+    const urlFound = await shortUrl.findOne({short_url:customURL});
+    if(urlFound!=null){
+        return true;
+    }else{
+        return false;
+    }
+}

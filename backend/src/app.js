@@ -5,6 +5,8 @@ import urlRoutes from "./routes/urlRoutes.js";
 import authRoutes from "./routes/authRoutes.js"
 import {retrieveUrl} from "./controllers/urlControllers.js";
 import { ErrorHandler } from "./middleware/errorHandler.js";
+import { authMiddleware } from "./middleware/authMiddleware.js";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 
 dotenv.config("./.env");
@@ -12,6 +14,7 @@ dotenv.config("./.env");
 const app = express();
 
 app.use(express.json()); //without this req.body will be undefined
+app.use(cookieParser());
 
 if(process.env.NODE_ENV!=="production"){
     app.use(cors({
@@ -21,8 +24,9 @@ if(process.env.NODE_ENV!=="production"){
 
 connectDB();
 
+
 app.use("/api/auth",authRoutes);
-app.use("/api/url",urlRoutes);
+app.use("/api/url",authMiddleware,urlRoutes);
 app.get("/:shortUrl",retrieveUrl);
 
 app.use(ErrorHandler); //keep error handler after all routes

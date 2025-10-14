@@ -6,6 +6,11 @@ export const findUserViaEmail = async(email)=>{
     return doc;
 }
 
+export const findUserViaId = async(id)=>{
+    const doc = await userModel.findOne({_id:id});
+    return doc;
+}
+
 export const saveUser = async(name,email,password)=>{
     try{
         const doc = new userModel({
