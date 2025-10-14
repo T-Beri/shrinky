@@ -1,13 +1,19 @@
 import { saveShortUrl } from "../daos/saveShortUrl.js";
 import { NotFoundError, UnauthorizedError } from "../middleware/errorHandler.js";
-import { shortUrlServiceWithOutUser, getFullUrl, getCustomShortUrl } from "../services/shortUrlService.js";
+import { shortUrlServiceWithOutUser, getFullUrl, getCustomShortUrl, shortUrlServiceWithUser } from "../services/shortUrlService.js";
 
 
 export async function createUrl(req,res,next){
     try{
-        const {url} = req.body; 
-    
-        const shortend = await shortUrlServiceWithOutUser(url);
+        const {url,userId} = req.body; 
+        let shortend;
+
+        if(userId!=null){
+            shortend = await shortUrlServiceWithUser(url,userId);
+        }else{
+            shortend = await shortUrlServiceWithOutUser(url);
+        }
+        
         
         res.status(201).json({
             message:"Short url created successfully.",

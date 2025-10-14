@@ -1,5 +1,5 @@
 import {saveUser,findUserViaEmail } from "../daos/userDao.js";
-import { createToken } from "../utils/jwtGen.js";
+import { createToken,createRefreshToken } from "../utils/jwtGen.js";
 
 export const registerUser = async(name,email,pass)=>{
    
@@ -11,7 +11,9 @@ export const registerUser = async(name,email,pass)=>{
 
         const newUser = await saveUser(name,email,pass);
         const token = createToken(newUser._id)
-        return token;
+        const refreshToken = createRefreshToken(newUser._id);
+
+        return {token,refreshToken};
    
     
 }
@@ -26,7 +28,8 @@ export const loginUser = async(email,pass) =>{
         else{
         
             const token = createToken(user._id);
-            return token;
+            const refreshToken = createRefreshToken(user._id);
+            return {token,refreshToken};
         
         }
 }

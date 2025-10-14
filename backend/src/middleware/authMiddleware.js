@@ -1,26 +1,39 @@
 import { findUserViaId } from "../daos/userDao.js";
-import { verifyToken } from "../utils/jwtGen.js";
+import { verifyToken,verifyRefreshToken } from "../utils/jwtGen.js";
 
 export const authMiddleware = async(req,res,next)=>{
     try{
-        const token = req.cookies.accessToken;
-        if(!token){
-            
-            next();
+        const accessToken = req.cookies.accessToken;
+        const refreshToken = req.cookies.refreshToken;
+
+        if (accessToken) {
+            try {
+                const decoded = verifyToken(accessToken);
+                const user = await findUserViaId(decoded.id);
+                if (user) req.user = user;
+                return next();
+            } catch (err) {
+                // access token invalid or expired → fallback to refresh token
+            }
         }
 
-        else{
-            
-            const decoded = verifyToken(token);
-            const user = await findUserViaId(decoded.id);
-            if(!user){
-                return res.status(401).json({message:"Unauthorized"});
+        if (refreshToken) {
+            try {
+                const decodedRefresh = verifyRefreshToken(refreshToken);
+                const user = await findUserViaId(decodedRefresh.id);
+                if (user) {
+                    req.user = user;
+                    // issue new access token
+                    const newAccessToken = createToken(user._id);
+                    res.cookie("accessToken", newAccessToken, cookieOptions);
+                }
+            } catch (err) {
+                // invalid refresh token → just continue as guest
             }
-            req.user = user;
         }
-        next();
-    }catch(error){
-        
+
+        next(); 
+    } catch (error) {
         console.error(error);
         next();
     }

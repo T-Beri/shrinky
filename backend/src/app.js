@@ -24,7 +24,6 @@ if(process.env.NODE_ENV!=="production"){
 
 connectDB();
 
-
 app.use("/api/auth",authRoutes);
 app.use("/api/url",authMiddleware,urlRoutes);
 app.get("/:shortUrl",retrieveUrl);
