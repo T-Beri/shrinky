@@ -9,5 +9,7 @@ export const register = async(req,res) =>{
 }
 
 export const login = async(req,res) =>{
-    res.send("Login");
+    const {email,password} = req.body;
+    const token = await loginUser(email,password);
+    
 }

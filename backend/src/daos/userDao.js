@@ -1,5 +1,4 @@
 import { ConflictError } from "../middleware/errorHandler.js";
-import User from "../models/user_model.js";
 import userModel from "../models/user_model.js";
 
 export const findUserViaEmail = async(email)=>{
