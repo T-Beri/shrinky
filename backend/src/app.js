@@ -8,6 +8,7 @@ import { ErrorHandler } from "./middleware/errorHandler.js";
 import { authMiddleware } from "./middleware/authMiddleware.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { checker } from "./controllers/authController.js";
 
 dotenv.config("./.env");
 
@@ -18,12 +19,13 @@ app.use(cookieParser());
 
 if(process.env.NODE_ENV!=="production"){
     app.use(cors({
-        origin:"http://localhost:5173"
+        origin:"http://localhost:5173",
+        credentials: true,
     }))
 }
 
 connectDB();
-
+app.use("/api/auth/check",authMiddleware,checker);
 app.use("/api/auth",authRoutes);
 app.use("/api/url",authMiddleware,urlRoutes);
 app.get("/:shortUrl",retrieveUrl);

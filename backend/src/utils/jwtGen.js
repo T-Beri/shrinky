@@ -5,7 +5,7 @@ export const createToken = (id)=>{
     return jwt.sign(
             {id:id},
             process.env.JWT_SECRET,
-            {expiresIn:"1d"},
+            {expiresIn:"5m"},
         ) //the parts: payload , secret key, options (the header and signature are made by the library)
 }
 

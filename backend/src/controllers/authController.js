@@ -31,3 +31,21 @@ export const login = async(req,res,next) =>{
     }
     
 }
+
+export const checker=async(req,res,next)=>{
+    
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ loggedIn: false });
+
+    try {
+        const user = jwt.verify(token, process.env.JWT_SECRET);
+        if(user){
+            res.status(200).json({ loggedIn: true, user });
+        }else{
+            res.status(401).json({ loggedIn: false });
+        }
+        
+    } catch (err) {
+        res.status(401).json({ loggedIn: false });
+    }
+}
