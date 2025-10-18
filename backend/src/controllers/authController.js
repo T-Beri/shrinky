@@ -1,6 +1,6 @@
 import {registerUser,loginUser} from "../services/authService.js"
 import { cookieOptions } from "../config/cookieOptions.js"
-
+import jwt from "jsonwebtoken"
 export const register = async(req,res,next) =>{
     
     try{
@@ -32,9 +32,9 @@ export const login = async(req,res,next) =>{
     
 }
 
-export const checker=async(req,res,next)=>{
+export const checker=(req,res,next)=>{
     
-    const token = req.cookies.token;
+    const token = req.cookies.accessToken;
     if (!token) return res.status(401).json({ loggedIn: false });
 
     try {
@@ -42,10 +42,11 @@ export const checker=async(req,res,next)=>{
         if(user){
             res.status(200).json({ loggedIn: true, user });
         }else{
-            res.status(401).json({ loggedIn: false });
+            res.status(401).json({ loggedIn: false , message: "No user"});
         }
         
     } catch (err) {
-        res.status(401).json({ loggedIn: false });
+        console.log(err);
+        res.status(401).json({ loggedIn: false});
     }
 }

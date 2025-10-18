@@ -9,43 +9,44 @@ export const authMiddleware = async(req,res,next)=>{
         const { accessToken, refreshToken } = req.cookies;
 
     
-    if (accessToken) {
-      try {
-        const decoded = verifyToken(accessToken);
-        const user = await findUserViaId(decoded.id);
-        if (!user) return res.status(401).json({ message: "Unauthorized" });
-        req.user = user;
-        return next();
-      } catch (err) {
-        console.log("Access token invalid/expired:", err.message);
-        // continue to check refresh token
+      if (accessToken) {
+        try {
+          console.log("we got an access");
+          const decoded = verifyToken(accessToken);
+          const user = await findUserViaId(decoded.id);
+          if (!user) return res.status(401).json({ message: "Unauthorized" });
+          req.user = user;
+          return next();
+        } catch (err) {
+          console.log("Access token invalid/expired:", err.message);
+          // continue to check refresh token
+        }
       }
-    }
 
-    if (refreshToken) {
+      if (refreshToken) {
         console.log("i have refresh")
-      try {
-        const decodedRefresh = verifyRefreshToken(refreshToken);
-        const user = await findUserViaId(decodedRefresh.id);
-        if (!user) return res.status(401).json({ message: "Unauthorized" });
+        try {
+          const decodedRefresh = verifyRefreshToken(refreshToken);
+          const user = await findUserViaId(decodedRefresh.id);
+          if (!user) return res.status(401).json({ message: "Unauthorized" });
 
         
-        const newAccessToken = createToken(user._id);
-        res.cookie("accessToken", newAccessToken, cookieOptions);
+          const newAccessToken = createToken(user._id);
+          res.cookie("accessToken", newAccessToken, cookieOptions);
 
-        req.user = user;
-        console.log("i made new access for u")
-        return next();
-      } catch (err) {
-        console.log("Refresh token invalid/expired:", err.message);
-        return res.status(401).json({ message: "Unauthorized" });
+          req.user = user;
+          console.log("i made new access for u")
+          return next();
+        } catch (err) {
+          console.log("Refresh token invalid/expired:", err.message);
+          return res.status(401).json({ message: "Unauthorized" });
+        }
       }
+
+      return res.status(401).json({ message: "No cookies" });
+
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Server Error" });
     }
-
-    return res.status(401).json({ message: "Unauthorized" });
-
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server Error" });
   }
-}

@@ -1,11 +1,18 @@
 import { Navigate, Outlet } from "react-router-dom";
+import useAuthStore from "../../store/authStore";
+import { useEffect } from "react";
 
-const ProtectedRoute = ({ isLoggedIn }) => {
+const ProtectedRoute = () => {
+  const { isLoggedIn,checkAuth } = useAuthStore();
+  useEffect(()=>{
+    checkAuth();
+  },[])
+
   if (isLoggedIn === null) {
     return <div>Loading...</div>;
   }
 
-  return isLoggedIn ? <Outlet /> && console.log("yea") : <Navigate to="/" />;
+  return isLoggedIn ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default ProtectedRoute;

@@ -3,12 +3,14 @@ import {useState,useEffect} from "react";
 import toast from "react-hot-toast"
 import api from "../lib/axios";
 import {useNavigate} from "react-router-dom"
-import useAuthCheck from "../hooks/useAuthCheck";
+import useAuthStore from '../../store/authStore';
 
 const LoginForm = () => {
+
   const [email,setEmail] = useState();
   const [pass,setPass] = useState();
-  const { isLoggedIn } = useAuthCheck();
+  
+  const { login } = useAuthStore();
 
   const navigate = useNavigate();
 
@@ -29,13 +31,10 @@ const LoginForm = () => {
         toast.error("Enter valid email and password")
         return;
       }
-      const promise = api.post("/auth/login",{email:email,password:pass},{ withCredentials: true });
+      await login(email,pass);
 
-      const res = await toast.promise(promise,{
-          loading:"Logging you in...",
-          success:"Successfully logged in!"
-        }
-      );
+      toast.success("Successfully logged in!");
+      
       navigate("/home");
 
     }catch(error){

@@ -1,4 +1,3 @@
-// hooks/useAuthCheck.js
 import { useState, useEffect } from "react";
 import api from "../lib/axios";
 
@@ -6,9 +5,10 @@ const useAuthCheck = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuth = async() => {
       try {
         const res = await api.get("/auth/check", { withCredentials: true });
+        console.log(res);
         if(res.status==200){
           console.log("You're logged in")
           setIsLoggedIn(true);
@@ -23,9 +23,9 @@ const useAuthCheck = () => {
     };
 
     checkAuth();
-  });
+  },[]);
 
-  return { isLoggedIn };
+  return { isLoggedIn,setIsLoggedIn };
 };
 
 export default useAuthCheck;
