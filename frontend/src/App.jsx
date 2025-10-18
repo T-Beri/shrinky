@@ -9,8 +9,10 @@ import {Navigate} from "react-router-dom";
 import useAuthStore from "../store/authStore.js";
 
 const App = () => {
-  const {isLoggedIn} = useAuthStore();
-  
+  const {isLoggedIn,checkAuth} = useAuthStore();
+  useEffect(() => {
+  checkAuth(); 
+  }, []);
 
   return (
     <div className='flex flex-col items-center justify-center h-screen w-screen bg-gray-100'>

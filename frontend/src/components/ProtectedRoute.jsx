@@ -6,7 +6,7 @@ const ProtectedRoute = () => {
   const { isLoggedIn,checkAuth } = useAuthStore();
   useEffect(()=>{
     checkAuth();
-  },[])
+  },[isLoggedIn])
 
   if (isLoggedIn === null) {
     return <div>Loading...</div>;

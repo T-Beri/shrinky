@@ -5,6 +5,7 @@ import { cookieOptions } from "../config/cookieOptions.js";
 
 export const authMiddleware = async(req,res,next)=>{
     console.log("hi im in middle");
+    console.log("Cookies received:", req.cookies);
     try{
         const { accessToken, refreshToken } = req.cookies;
 

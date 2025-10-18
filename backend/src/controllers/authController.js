@@ -35,6 +35,7 @@ export const login = async(req,res,next) =>{
 export const checker=(req,res,next)=>{
     
     const token = req.cookies.accessToken;
+    console.log(token);
     if (!token) return res.status(401).json({ loggedIn: false });
 
     try {
