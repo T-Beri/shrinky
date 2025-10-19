@@ -5,6 +5,7 @@ import { useEffect } from "react";
 const ProtectedRoute = () => {
   const { isLoggedIn,checkAuth } = useAuthStore();
   useEffect(()=>{
+    if (isLoggedIn === null) 
     checkAuth();
   },[isLoggedIn])
 
