@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import useAuthCheck from './hooks/useAuthCheck';
 import {Navigate} from "react-router-dom";
-import useAuthStore from "../store/authStore.js";
+import useAuthStore from "./store/authStore.js";
 
 const App = () => {
   const {isLoggedIn,checkAuth} = useAuthStore();

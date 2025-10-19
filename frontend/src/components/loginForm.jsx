@@ -3,7 +3,7 @@ import {useState,useEffect} from "react";
 import toast from "react-hot-toast"
 import api from "../lib/axios";
 import {useNavigate} from "react-router-dom"
-import useAuthStore from '../../store/authStore';
+import useAuthStore from '../store/authStore';
 
 const LoginForm = () => {
 
